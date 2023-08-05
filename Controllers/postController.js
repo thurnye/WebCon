@@ -39,7 +39,8 @@ export const getUserPost = async (req, res) => {
     }
 };
 // Get A Post Feed
-async function populateReplies(comment) {
+// This is for the deep nesting of replies
+const populateReplies = async (comment) => {
     if (comment.replies.length === 0) {
       return comment;
     }
@@ -57,7 +58,7 @@ async function populateReplies(comment) {
   
     comment.replies = populatedReplies;
     return comment;
-  }
+}
 
 export const getFeedPost = async (req, res) => {
     try {
@@ -121,32 +122,6 @@ export const getFeedPost = async (req, res) => {
     }
   };
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Get A Post Feed
 export const likeSavePost = async (req, res) => {
@@ -216,12 +191,3 @@ export const postCreateComment = async (req, res, next) => {
         res.status(400).json('Bad Credentials');
     }
 }
-
-
-
-
-
-
-
-
-

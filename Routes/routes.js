@@ -9,16 +9,16 @@ const router = express.Router();
 router.post("/auth/login", AuthController.getLogIn);
 
 // Get User
-router.get('/user/:id', UserController.getUser);
+router.get('/user/:id', verifyToken, UserController.getUser);
 
 // Add Or Remove a Friend
-router.patch('/user/:id/:friendId', UserController.postAddRemoveFriend);
+router.patch('/user/:id/:friendId', verifyToken, UserController.postAddRemoveFriend);
 
 // Posts
-router.post('/post', PostController.createPost);
-router.get('/post/:userId', PostController.getUserPost);
-router.get('/postFeed/:userId', PostController.getFeedPost);
-router.get('/post/:id/:postId/:actionType', PostController.likeSavePost);
+router.post('/post', verifyToken, PostController.createPost);
+router.get('/post/:userId', verifyToken, PostController.getUserPost);
+router.get('/postFeed/:userId', verifyToken, PostController.getFeedPost);
+router.get('/post/:id/:postId/:actionType', verifyToken, PostController.likeSavePost);
 
 // Comments
 router.post('/post/comment', PostController.postCreateComment)
