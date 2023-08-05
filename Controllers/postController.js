@@ -39,64 +39,6 @@ export const getUserPost = async (req, res) => {
     }
 };
 // Get A Post Feed
-
-// export const getFeedPost = async (req, res) => {
-//     try {
-//         const id = req.params.userId
-//         // Find the user by the provided userId
-//     const user = await User.findById(id).exec();
-
-//     // Check if the user exists
-//     if (!user) {
-//       throw new Error('User not found');
-//     }
-
-//     // Get an array of the user's friends' ObjectIds
-//     const friendsIds = user.friends.map((friend) => friend.toString());
-
-//     // Find all the posts where the author's ObjectId is in the friendsIds array
-//     const friendsPosts = await Post.find({ author: { $in: friendsIds } })
-//     .populate('author')
-//       .populate({
-//        path: 'author',
-//        select: '_id firstName lastName picturePath' 
-//         })
-//       .populate({
-//         path: 'comments',
-//         select: '_id comment user replies createdAt',
-//         populate: [
-//             { 
-//                 path: 'user', 
-//                 select: '_id firstName lastName picturePath' 
-//             },
-//             { 
-//                 path: 'replies',
-//                 select: '_id comment user replies createdAt', 
-//                 populate: { 
-//                     path: 'user', 
-//                     select: '_id firstName lastName picturePath' 
-//                 } 
-//             }
-//         ],
-//       })
-//       .exec();
-    
-//           res.status(200).json(friendsPosts);
-//       } catch (error) {
-//         console.error('Error fetching user friends posts:', error);
-//         res.status(400).json('Bad Credentials');
-//       }
-// };
-
-
-
-
-
-
-
-
-
-
 async function populateReplies(comment) {
     if (comment.replies.length === 0) {
       return comment;
@@ -104,25 +46,17 @@ async function populateReplies(comment) {
   
     const populatedReplies = await Promise.all(
       comment.replies.map(async (replyId) => {
-        const reply = await Comment.findById(replyId);
+        const reply = await Comment.findById(replyId)
+        .populate({ 
+            path: 'user', 
+            select: '_id firstName lastName picturePath' 
+        } ).exec()
         return populateReplies(reply);
       })
     );
   
     comment.replies = populatedReplies;
     return comment;
-  }
-  
-  async function populateComments(post) {
-    const populatedComments = await Promise.all(
-      post.comments.map(async (commentId) => {
-        const comment = await Comment.findById(commentId);
-        return populateReplies(comment);
-      })
-    );
-  
-    post.comments = populatedComments;
-    return post;
   }
 
 export const getFeedPost = async (req, res) => {
@@ -153,6 +87,10 @@ export const getFeedPost = async (req, res) => {
             {
               path: 'replies',
               select: '_id comment user replies createdAt',
+              populate: {
+                path: 'user',
+                select: '_id firstName lastName picturePath',
+              },
             },
           ],
         })
@@ -163,13 +101,18 @@ export const getFeedPost = async (req, res) => {
         friendsPosts.map(async (post) => {
           const comments = await Promise.all(
             post.comments.map(async (comment) => {
-              return populateReplies(comment);
+              const populatedComment = await populateReplies(comment);
+              populatedComment.replies.sort((a, b) => b.createdAt - a.createdAt); // Sort replies by most recent
+              return populatedComment;
             })
           );
-          post.comments = comments;
+          // Sort comments by most recent
+          post.comments = comments.sort((a, b) => b.createdAt - a.createdAt); 
           return post;
         })
       );
+  
+      populatedPosts.sort((a, b) => b.createdAt - a.createdAt); // Sort posts by most recent
   
       res.status(200).json(populatedPosts);
     } catch (error) {
