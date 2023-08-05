@@ -1,0 +1,68 @@
+[{
+  "_id": {
+    "$oid": "64cb2007213eb44d81b6bbea"
+  },
+  "comment": "congrats on your first post",
+  "user": {
+    "$oid": "64ca0728c53c2047d3bea216"
+  },
+  "post": {
+    "$oid": "64ca0796c53c2047d3bea220"
+  },
+  "replies": [
+    {
+      "$oid": "64cb23814a5d8606cc7bbfad"
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-08-03T03:33:27.916Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-03T03:48:17.160Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "64cb23814a5d8606cc7bbfad"
+  },
+  "comment": "thanks",
+  "user": {
+    "$oid": "64ca0741c53c2047d3bea218"
+  },
+  "post": {
+    "$oid": "64ca0796c53c2047d3bea220"
+  },
+  "replies": [
+    {
+      "$oid": "64cc882fbb41ec911a0a1742"
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-08-03T03:48:17.054Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-04T05:10:07.722Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "64cc882fbb41ec911a0a1742"
+  },
+  "comment": "you are welcome",
+  "user": {
+    "$oid": "64ca0728c53c2047d3bea216"
+  },
+  "post": {
+    "$oid": "64ca0796c53c2047d3bea220"
+  },
+  "replies": [],
+  "createdAt": {
+    "$date": "2023-08-04T05:10:07.620Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-04T05:10:07.620Z"
+  },
+  "__v": 0
+}]

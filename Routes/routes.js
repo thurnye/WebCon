@@ -9,14 +9,18 @@ const router = express.Router();
 router.post("/auth/login", AuthController.getLogIn);
 
 // Get User
-router.get('/user/:id', verifyToken, UserController.getUser);
+router.get('/user/:id', UserController.getUser);
 
 // Add Or Remove a Friend
-router.patch('/user/:id/:friendId', verifyToken, UserController.postAddRemoveFriend);
+router.patch('/user/:id/:friendId', UserController.postAddRemoveFriend);
 
 // Posts
-router.post('user/post', PostController.createPost);
-router.get('user/post/:postId', PostController.getFeedPost);
-router.get('user/post/:postId/:actionType', PostController.likeSavePost);
+router.post('/post', PostController.createPost);
+router.get('/post/:userId', PostController.getUserPost);
+router.get('/postFeed/:userId', PostController.getFeedPost);
+router.get('/post/:id/:postId/:actionType', PostController.likeSavePost);
+
+// Comments
+router.post('/post/comment', PostController.postCreateComment)
 
 export default router;

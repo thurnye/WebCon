@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const {Schema} = mongoose;
+import mongoose from 'mongoose';
+const {Schema} = mongoose
 
 
 const postsSchema = new Schema({
@@ -12,14 +12,15 @@ const postsSchema = new Schema({
         require: true
     },
     likes: {
-        type: Number
+        type: Number,
+        default: 0
     },
     images: [{
         type: String
     }],
     comments: [{
         type: Schema.Types.ObjectId,
-        ref: 'Comments',
+        ref: 'Comment',
         }],
     author: {
         type: Schema.Types.ObjectId,
@@ -32,4 +33,8 @@ const postsSchema = new Schema({
   }
 )
 
-module.exports = mongoose.model('Posts', postsSchema);
+// module.exports = mongoose.model('Posts', postsSchema);
+
+const Post = mongoose.model("Post", postsSchema);
+
+export default Post;

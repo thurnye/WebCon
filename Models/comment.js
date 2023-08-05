@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const {Schema} = mongoose;
+import mongoose from 'mongoose';
+const {Schema} = mongoose
 
 
 const commentsSchema = new Schema({
@@ -15,12 +15,12 @@ const commentsSchema = new Schema({
     post: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'Posts'
+        ref: 'Post'
     },
     replies: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Comments'
+            ref: 'Comment'
         }
     ],
 },
@@ -28,5 +28,6 @@ const commentsSchema = new Schema({
     timestamps: true
   }
 )
+const Comment = mongoose.model('Comment', commentsSchema);
 
-module.exports = mongoose.model('Comments', commentsSchema);
+export default Comment;

@@ -7,6 +7,9 @@ export const getUser = async (req, res) => {
         console.log(id);
         const user = await User.findById(id)
         .populate('friends')
+        .populate('posts')
+        .populate('likedPosts')
+        .populate('savedPosts')
         .exec();
 
         res.status(200).json(user);
@@ -32,7 +35,11 @@ export const postAddRemoveFriend = async (req, res) => {
         }
         await user.save();
 
-        const savedUserFriend = await User.findById(id).populate('friends').exec();
+        const savedUserFriend = await User.findById(id)
+        .populate('friends')
+        .populate('posts')
+        .populate('likedPosts')
+        .populate('savedPosts')
         res.status(200).json(savedUserFriend);
         
     } catch (error) {

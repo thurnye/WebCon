@@ -1,0 +1,146 @@
+
+I have this schema for
+User Model:
+import mongoose from 'mongoose';
+const {Schema} = mongoose
+
+const UserSchema = new mongoose.Schema(
+    {
+        firstName: {
+            type: String,
+            required: true,
+            min: 2,
+            max: 30
+        },
+        lastName: {
+            type: String,
+            required: true,
+            min: 2,
+            max: 30
+        },
+        email: {
+            type: String,
+            required: true,
+            max: 50,
+            unique: true
+        },
+        password: {
+            type: String,
+            required: true,
+            min: 5,
+        },
+        picturePath: {
+            type: String,
+            default: "",
+        },
+        friends: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        ],
+        posts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Post'
+            }
+        ],
+        likedPosts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Post'
+            }
+        ],
+        savedPosts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Post'
+            }
+        ],
+        location: String,
+        Occupation: String,
+        viewedProfile: Number,
+        impressions: Number,
+    },
+    {timestamps: true}
+);
+
+const User = mongoose.model("User", UserSchema);
+
+export default User;
+Post Model:
+import mongoose from 'mongoose';
+const {Schema} = mongoose
+
+
+const postsSchema = new Schema({
+    post: {
+        type: String,
+        require: true
+    },
+    location: {
+        type: String,
+        require: true
+    },
+    likes: {
+        type: Number,
+        default: 0
+    },
+    images: [{
+        type: String
+    }],
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+        }],
+    author: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    }
+},
+{
+    timestamps: true
+  }
+)
+
+// module.exports = mongoose.model('Posts', postsSchema);
+
+const Post = mongoose.model("Post", postsSchema);
+
+export default Post;
+Comment Model:
+import mongoose from 'mongoose';
+const {Schema} = mongoose
+
+
+const commentsSchema = new Schema({
+    comment: {
+        type: String,
+        require: true
+    },
+    user: { 
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
+    post: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'Post'
+    },
+    replies: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ],
+},
+{
+    timestamps: true
+  }
+)
+const Comment = mongoose.model('Comment', commentsSchema);
+
+export default Comment;
+i want to fetch all the user friends post and all comments and replies. if the replies has a relies populate them till all the replies of every replies are populated for each comment. take account that a replies will also have a replies and they should be populated too

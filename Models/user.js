@@ -36,13 +36,13 @@ const UserSchema = new mongoose.Schema(
                 ref: 'User'
             }
         ],
-        Posts: [
+        posts: [
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Post'
             }
         ],
-        likedPost: [
+        likedPosts: [
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Post'
