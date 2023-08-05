@@ -1,7 +1,7 @@
 import User from '../Models/user.js';
 import Post from '../Models/post.js';
 import Comment from '../Models/comment.js'
-import {postActionTypes} from '../common/enums.js'
+import {postActionTypes} from '../src/util/common/enums.js'
 
 // Post A Post
 export const createPost = async (req, res) => {
@@ -21,23 +21,23 @@ export const createPost = async (req, res) => {
     }
 };
 // Get A Post Feed
-export const getUserPost = async (req, res) => {
-    try {
+// export const getUserPost = async (req, res) => {
+//     try {
         
-        const user = await User.findById(id)
-        .populate('friends')
-        .populate('posts')
-        .populate('likedPosts')
-        .populate('savedPosts')
-        .exec();
+//         const user = await User.findById(id)
+//         .populate('friends')
+//         .populate('posts')
+//         .populate('likedPosts')
+//         .populate('savedPosts')
+//         .exec();
 
-        res.status(200).json(user);
+//         res.status(200).json(user);
 
-    } catch (error) {
-        console.log(error);
-        res.status(400).json('Bad Credentials');
-    }
-};
+//     } catch (error) {
+//         console.log(error);
+//         res.status(400).json('Bad Credentials');
+//     }
+// };
 // Get A Post Feed
 // This is for the deep nesting of replies
 const populateReplies = async (comment) => {
