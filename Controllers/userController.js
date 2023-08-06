@@ -6,7 +6,10 @@ export const getUser = async (req, res) => {
         const id = req.params.id;
         console.log(id);
         const user = await User.findById(id)
-        .populate('friends')
+        .populate({
+            path: 'friends',
+            select: '_id firstName lastName picturePath',
+          }, )
         .populate('posts')
         .populate('likedPosts')
         .populate('savedPosts')
