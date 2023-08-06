@@ -5,6 +5,7 @@ import './App.css';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Profile from 'pages/Profile/Profile';
+import NavBar from './components/navBar/navBar'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import {themeSettings} from './theme';
@@ -19,6 +20,7 @@ const App = () => {
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <CssBaseline/>
+          <NavBar/>
           <Routes>
             <Route path='/login' element={<Login/>} />
             <Route path='/' element={<Home/>} />
