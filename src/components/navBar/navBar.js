@@ -29,124 +29,50 @@ const NavBar = () => {
   const handleLogout = () => {
     dispatch(authActions.logout())
     // redirect to login page
-    navigate('/')
+    navigate('/login')
   };
   console.log(user);
 
   return(
     <FlexBetweenBox padding='1rem 6%' backgroundColor={alt} data-testid="NavBar" className={styles.NavBar}>
-      <FlexBetweenBox gap='1.75rem'>
-        <Typography
-        fontWeight = 'bold'
-        fontSize='clamp(1rem, 2rem, 2.25rem)'
-        color='primary'
-        onClick = {() => navigate('/')}
-        sx={{
-          "&:hover":{
-            color: primaryLight,
-            cursor: 'pointer'
-          }
-        }}
-        >
-          WEBCon
-        </Typography>
-        {isNonMobileScreens && (
-           <FlexBetweenBox
-           backgroundColor={neutralLight}
-           borderRadius='9px'
-           gap='3rem'
-           padding='0.1rem 1.5rem'
-           >
-            <InputBase placeholder="Search..."/>
-            <IconButton>
-              <MdSearch/>
-            </IconButton>
-           </FlexBetweenBox>
-        )}
-      </FlexBetweenBox>
-      {/* Desktop Navigation */}
-      {isNonMobileScreens ? (<FlexBetweenBox gap='2rem'>
-          <IconButton onClick={() => dispatch(authActions.setMode())}>
-            {theme.palette.mode === 'dark' ? (<MdDarkMode size={25}/>) : (<MdLightMode size={25} color={dark}/>)}
-          </IconButton>
-          <MdMessage size={25}/>
-          <MdNotifications size={25}/>
-          <MdHelp size={25} />
-          <FormControl variant="standard" value={fullName}>
-            <Select
-              value={fullName}
-              sx={{
-                backgroundColor: neutralLight,
-                width: "150px",
-                borderRadius: "0.25rem",
-                p: "0.25rem 1rem",
-                "& .MuiSvgIcon-root": {
-                  pr: "0.25rem",
-                  width: "3rem",
-                },
-                "& .MuiSelect-select:focus": {
-                  backgroundColor: neutralLight,
-                },
-              }}
-              input={<InputBase />}
-            >
-              <MenuItem value={fullName}>
-                <Typography>{fullName}</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleLogout}>Log Out</MenuItem>
-            </Select>
-          </FormControl>
-      </FlexBetweenBox>)
-      : 
-      (
-        <IconButton
-          onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
-        >
-          <MdMenu/>
-        </IconButton>
-      )}
-      {/* MOBILE NAV */}
-      {!isNonMobileScreens && isMobileMenuToggled && (
-        <Box
-          position="fixed"
-          right="0"
-          bottom="0"
-          height="100%"
-          zIndex="10"
-          maxWidth="500px"
-          minWidth="300px"
-          backgroundColor={background}
-        >
-          {/* CLOSE ICON */}
-          <Box display="flex" justifyContent="flex-end" p="1rem">
-            <IconButton
-              onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
-            >
-              <MdClose />
-            </IconButton>
-          </Box>
-
-          {/* MENU ITEMS */}
-          <FlexBetweenBox
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            gap="3rem"
+     {user ? <>
+        <FlexBetweenBox gap='1.75rem'>
+          <Typography
+          fontWeight = 'bold'
+          fontSize='clamp(1rem, 2rem, 2.25rem)'
+          color='primary'
+          onClick = {() => navigate('/')}
+          sx={{
+            "&:hover":{
+              color: primaryLight,
+              cursor: 'pointer'
+            }
+          }}
           >
-            <IconButton
-              onClick={() => dispatch(authActions.setMode())}
-              sx={{ fontSize: "25px" }}
-            >
-              {theme.palette.mode === "dark" ? (
-                <MdDarkMode sx={{ fontSize: "25px" }} />
-              ) : (
-                <MdLightMode sx={{ color: dark, fontSize: "25px" }} />
-              )}
+            WEBCon
+          </Typography>
+          {isNonMobileScreens && (
+              <FlexBetweenBox
+              backgroundColor={neutralLight}
+              borderRadius='9px'
+              gap='3rem'
+              padding='0.1rem 1.5rem'
+              >
+              <InputBase placeholder="Search..."/>
+              <IconButton>
+                <MdSearch/>
+              </IconButton>
+              </FlexBetweenBox>
+          )}
+        </FlexBetweenBox>
+        {/* Desktop Navigation */}
+        {isNonMobileScreens ? (<FlexBetweenBox gap='2rem'>
+            <IconButton onClick={() => dispatch(authActions.setMode())}>
+              {theme.palette.mode === 'dark' ? (<MdDarkMode size={25}/>) : (<MdLightMode size={25} color={dark}/>)}
             </IconButton>
-            <MdMessage sx={{ fontSize: "25px" }} />
-            <MdNotifications sx={{ fontSize: "25px" }} />
-            <MdHelp sx={{ fontSize: "25px" }} />
+            <MdMessage size={25}/>
+            <MdNotifications size={25}/>
+            <MdHelp size={25} />
             <FormControl variant="standard" value={fullName}>
               <Select
                 value={fullName}
@@ -168,14 +94,106 @@ const NavBar = () => {
                 <MenuItem value={fullName}>
                   <Typography>{fullName}</Typography>
                 </MenuItem>
-                <MenuItem onClick={handleLogout}>
-                  Log Out
-                </MenuItem>
+                <MenuItem onClick={handleLogout}>Log Out</MenuItem>
               </Select>
             </FormControl>
-          </FlexBetweenBox>
-        </Box>
-      )}
+        </FlexBetweenBox>)
+        : 
+        (
+          <IconButton
+            onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
+          >
+            <MdMenu/>
+          </IconButton>
+        )}
+        {/* MOBILE NAV */}
+        {!isNonMobileScreens && isMobileMenuToggled && (
+          <Box
+            position="fixed"
+            right="0"
+            bottom="0"
+            height="100%"
+            zIndex="10"
+            maxWidth="500px"
+            minWidth="300px"
+            backgroundColor={background}
+          >
+            {/* CLOSE ICON */}
+            <Box display="flex" justifyContent="flex-end" p="1rem">
+              <IconButton
+                onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
+              >
+                <MdClose />
+              </IconButton>
+            </Box>
+  
+            {/* MENU ITEMS */}
+            <FlexBetweenBox
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+              gap="3rem"
+            >
+              <IconButton
+                onClick={() => dispatch(authActions.setMode())}
+                sx={{ fontSize: "25px" }}
+              >
+                {theme.palette.mode === "dark" ? (
+                  <MdDarkMode sx={{ fontSize: "25px" }} />
+                ) : (
+                  <MdLightMode sx={{ color: dark, fontSize: "25px" }} />
+                )}
+              </IconButton>
+              <MdMessage sx={{ fontSize: "25px" }} />
+              <MdNotifications sx={{ fontSize: "25px" }} />
+              <MdHelp sx={{ fontSize: "25px" }} />
+              <FormControl variant="standard" value={fullName}>
+                <Select
+                  value={fullName}
+                  sx={{
+                    backgroundColor: neutralLight,
+                    width: "150px",
+                    borderRadius: "0.25rem",
+                    p: "0.25rem 1rem",
+                    "& .MuiSvgIcon-root": {
+                      pr: "0.25rem",
+                      width: "3rem",
+                    },
+                    "& .MuiSelect-select:focus": {
+                      backgroundColor: neutralLight,
+                    },
+                  }}
+                  input={<InputBase />}
+                >
+                  <MenuItem value={fullName}>
+                    <Typography>{fullName}</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>
+                    Log Out
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </FlexBetweenBox>
+          </Box>
+        )}
+     </>
+      : 
+        <Typography
+        fontWeight = 'bold'
+        fontSize='clamp(1rem, 2rem, 2.25rem)'
+        color='primary'
+        onClick = {() => navigate('/login')}
+        sx={{
+          "&:hover":{
+            color: primaryLight,
+            cursor: 'pointer'
+          }
+        }}
+        >
+          WEBCon
+        </Typography>
+      }
     </FlexBetweenBox>
   )
 };
