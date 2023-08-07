@@ -11,6 +11,7 @@ import PrivateRoute from 'pages/PrivateRoute/PrivateRoute';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { themeSettings } from './theme';
+import NoMatch from 'pages/NoMatch/NoMatch';
 
 const App = () => {
   const mode = useSelector((state) => state.mode);
@@ -32,7 +33,8 @@ const App = () => {
             {!user && <>
               <Route path='/login' element={<Login/>} />
               <Route path='/signup' element={<Signup/>} />
-              </>}
+            </>}
+            <Route path="*" element={<NoMatch />} />
         </Routes>
         </ThemeProvider>
       </BrowserRouter>

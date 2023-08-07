@@ -12,7 +12,6 @@ import {MdModeEditOutline} from 'react-icons/md'
 import {StatusCode} from '../../util/common/enums'
 
 
-
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
   lastName: yup.string().required("required"),
@@ -45,9 +44,8 @@ const SignUpForm = () => {
   const navigate = useNavigate();
   const { palette } = useTheme();
 
-  const handleRegister = async (values, onSubmitProps) => {
+  const handleRegister = async (values) => {
     const result = await services.register(values);
-    console.log(result);
     if(result.status === StatusCode.success){
       navigate('/login');
     };
@@ -165,10 +163,8 @@ const SignUpForm = () => {
                   </Grid>
                   <Grid item xs={12} sm={12}>
                     <Dropzone
-                      // acceptedFiles="image/*"
                       multiple={false}
                       onDrop={async (acceptedFiles) =>
-                        // console.log(acceptedFiles[0])
                         setFieldValue("picture", {
                           image: await convertToBase64(acceptedFiles[0]),
                           name: acceptedFiles[0].name,

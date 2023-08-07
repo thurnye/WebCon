@@ -25,11 +25,9 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = async (values, onSubmitProps) => {
-    console.log(values);
+  const handleLogin = async (values) => {
     const result = await services.postLogin(values);
     if(result.status === StatusCode.success){
-      console.log(result);
       dispatch(authActions.login(result.data))
       navigate('/');
     };
@@ -38,7 +36,6 @@ const LoginForm = () => {
 
   return(
     <div className={styles.LoginForm} data-testid="LoginForm">
-
       <Formik
       onSubmit={handleLogin}
       initialValues={initialValuesLogin}
@@ -48,11 +45,9 @@ const LoginForm = () => {
         values,
         errors,
         touched,
-        // handleBlur,
         handleChange,
         handleSubmit,
         setFieldValue,
-        // resetForm,
       }) => (
         <form onSubmit={handleSubmit}>
           <Box  sx={{ mt: 1 }}>
