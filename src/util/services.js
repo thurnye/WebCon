@@ -1,10 +1,9 @@
 import http from './http-commons';
-import {likeSavePost} from '../../Controllers/postController'
 
 class StuffDataService {
 
   // signup
-  create(data) {
+  register(data) {
     return http.post("/auth/register", data);
   }
 

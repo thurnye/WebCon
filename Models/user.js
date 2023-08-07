@@ -26,9 +26,15 @@ const UserSchema = new mongoose.Schema(
             required: true,
             min: 5,
         },
-        picturePath: {
-            type: String,
-            default: "",
+        picture:{
+            avatar: {
+                type: String,
+    
+            },
+            name: {
+                type: String,
+    
+            }
         },
         friends: [
             {
