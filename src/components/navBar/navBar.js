@@ -23,16 +23,15 @@ const NavBar = () => {
   const primaryLight = theme.palette.primary.light;
   const alt = theme.palette.background.alt;
 
-  // const fullName = `${user.firstName} ${user.lastName}`;
-  const fullName = 'test tester';
+  const fullName = `${user?.firstName} ${user?.lastName}`;
+  // const fullName = 'test tester';
 
   const handleLogout = () => {
     dispatch(authActions.logout())
     // redirect to login page
     navigate('/login')
   };
-  console.log(user);
-
+ 
   return(
     <FlexBetweenBox padding='1rem 6%' backgroundColor={alt} data-testid="NavBar" className={styles.NavBar}>
      {user ? <>

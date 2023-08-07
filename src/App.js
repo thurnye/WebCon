@@ -13,9 +13,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { themeSettings } from './theme';
 
 const App = () => {
-  const user = useSelector(state => state.user);
   const mode = useSelector((state) => state.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+  const user = useSelector((state) => state.user);
 
   return (
     <div className='app'>
@@ -24,11 +24,16 @@ const App = () => {
           <CssBaseline/>
           <NavBar/>
           <Routes>
-            <Route path='/' element={<PrivateRoute element={<Home/>} />} />
-            <Route path='/user' element={<PrivateRoute element={<Profile/>} />} />
-            <Route path='/login' element={<Login/>} />
-            <Route path='/signup' element={<Signup/>} />
-          </Routes>
+            <Route element={<PrivateRoute/>}>
+              <Route path='/' element={<Home/>} />
+              <Route path='profile' element={<Profile/>} />
+            </Route>
+            <Route path='/login' element={<Login/>}/>
+            {!user && <>
+              <Route path='/login' element={<Login/>} />
+              <Route path='/signup' element={<Signup/>} />
+              </>}
+        </Routes>
         </ThemeProvider>
       </BrowserRouter>
     </div>

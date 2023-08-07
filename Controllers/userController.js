@@ -7,9 +7,9 @@ export const getUser = async (req, res) => {
         console.log(id);
         const user = await User.findById(id)
         .populate({
-            path: 'friends',
-            select: '_id firstName lastName picturePath',
-          }, )
+              path: 'user',
+              select: '_id firstName lastName picturePath',
+            } )
         .populate('posts')
         .populate('likedPosts')
         .populate('savedPosts')
