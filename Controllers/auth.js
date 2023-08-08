@@ -46,7 +46,13 @@ export const getLogIn = async (req, res) => {
       if (!isPasswordValid) return res.status(401).json({ msg: 'Invalid email or password' });
   
       // If password is valid, generate a new token
-      const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: '24h' });
+      const payload = {
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      };
+      const token = jwt.sign({ payload }, process.env.SECRET, { expiresIn: '24h' });
   
       // Create a user object without the password field
       const userWithoutPassword = { ...user.toObject() };
@@ -56,7 +62,7 @@ export const getLogIn = async (req, res) => {
       res.status(200).json({ token, user: userWithoutPassword });
     } catch (error) {
       console.log(error);
-      res.status(500).json('Internal Server Error');
+      res.status(500).json({msg:'Internal Server Error', error: error});
     }
   };
 

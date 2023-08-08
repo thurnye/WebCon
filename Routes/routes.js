@@ -9,7 +9,7 @@ const router = express.Router();
 router.post("/auth/login", AuthController.getLogIn);
 
 // Get User
-router.get('/user/:id', UserController.getUser);
+router.get('/user/:id', verifyToken, UserController.getUser);
 
 // Add Or Remove a Friend
 router.patch('/user/:id/:friendId', verifyToken, UserController.postAddRemoveFriend);

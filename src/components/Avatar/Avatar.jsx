@@ -10,8 +10,8 @@ const Avatar = ({image, size="60px"}) => {
                 style={{objectFit: 'cover', borderRadius: '50%'}}
                 width={size}
                 height={size}
-                alt={image?.name}
-                src={image?.avatar}
+                alt={image.name}
+                src={image.avatar}
             />
         </Box>
     )

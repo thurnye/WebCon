@@ -11,15 +11,22 @@ export const createPost = async (req, res) => {
         
         const savedPost = await newPost.save();
         const user = await User.findById(author);
+        // If user is not found in the database
+        if (!user) return res.status(400).json({ msg: 'User does not exist' });
+
         user.posts.push(savedPost._id);
         await user.save();
-        res.status(200).json(savedPost);
+        res.status(200).json({msg: 'Post saved successfully!'});
 
     } catch (error) {
         console.log(error);
-        res.status(400).json('Bad Credentials');
+        res.status(500).json({
+          msg: 'Internal Server Error',
+          error: error
+        });
     }
 };
+
 // Get A Post Feed
 // export const getUserPost = async (req, res) => {
 //     try {
@@ -135,7 +142,6 @@ export const likeSavePost = async (req, res) => {
 
         if(actionType === postActionTypes.like){
             user.likedPosts.push(postId);
-            console.log
             post.likes += 1
         }
         if(actionType === postActionTypes.save){

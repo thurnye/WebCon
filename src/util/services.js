@@ -17,10 +17,7 @@ class StuffDataService {
     return http.get(`/user/${id}`);
   }
   
-  // get user
-  getUserRecipes(id, data) {
-    return http.post(`/user/${id}`, data);
-  }
+
 
   //add a friend
   postAddFriend(userId, friendId) {

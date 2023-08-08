@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styles from './Friends.module.css';
 
 const Friends = () => (
@@ -8,8 +7,5 @@ const Friends = () => (
   </div>
 );
 
-Friends.propTypes = {};
-
-Friends.defaultProps = {};
 
 export default Friends;

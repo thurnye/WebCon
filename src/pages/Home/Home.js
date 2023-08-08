@@ -1,14 +1,12 @@
 import React from 'react';
 import styles from './Home.module.css';
 import { Box, useMediaQuery } from "@mui/material";
-import { useSelector } from "react-redux";
 import InfoSection from '../../components/HomeDashboard/InfoSection/InfoSection';
 import FeedsSection from '../../components/HomeDashboard/FeedsSection/FeedsSection';
 import ArticlesSection from '../../components/HomeDashboard/ArticlesSection/ArticlesSection';
 
 const Home = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const { _id, picturePath } = useSelector((state) => state.user);
 
   return(
     <Box className={styles.Home} data-testid="Home">

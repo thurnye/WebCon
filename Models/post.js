@@ -16,7 +16,13 @@ const postsSchema = new Schema({
         default: 0
     },
     images: [{
-        type: String
+        image: {
+            type: String,
+        },
+        name: {
+            type: String,
+
+        }
     }],
     comments: [{
         type: Schema.Types.ObjectId,

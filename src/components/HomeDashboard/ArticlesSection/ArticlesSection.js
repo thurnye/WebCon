@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styles from './ArticlesSection.module.css';
-import { Box, useMediaQuery } from "@mui/material";
+import { Box } from "@mui/material";
 import Friends from '../../Friends/Friends';
 
 const ArticlesSection = () => (
@@ -13,8 +12,5 @@ const ArticlesSection = () => (
   </Box>
 );
 
-ArticlesSection.propTypes = {};
-
-ArticlesSection.defaultProps = {};
 
 export default ArticlesSection;
