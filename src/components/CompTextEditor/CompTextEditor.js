@@ -5,7 +5,7 @@ import TextStyle from '@tiptap/extension-text-style'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import './CompTextEditor.css'
-import {FaBold, FaHeading, FaItalic, FaListOl, FaListUl, FaParagraph, FaQuoteLeft, FaRedo, FaStrikethrough, FaUnderline, FaUndo} from 'react-icons/fa'
+import {FaBold, FaHeading, FaItalic, FaListOl, FaListUl, FaQuoteLeft, FaRedo, FaStrikethrough, FaUnderline, FaUndo} from 'react-icons/fa'
 import Underline from '@tiptap/extension-underline';
 import Placeholder from '@tiptap/extension-placeholder';
 

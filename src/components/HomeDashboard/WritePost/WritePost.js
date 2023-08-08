@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Dropzone from "react-dropzone";
 import styles from './WritePost.module.css';
-import { authActions } from '../../../store/authSlice';
 import services from '../../../util/services';
 import { 
   MdDeleteOutline, 
@@ -28,7 +27,6 @@ import { convertToBase64 } from '../../../util/common/general';
 import { StatusCode } from 'util/common/enums';
 
 const WritePost = () => { 
-  const dispatch = useDispatch();
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState([]);
   const [post, setPost] = useState("");
@@ -70,7 +68,7 @@ const WritePost = () => {
     }
   };
 
-  
+
   return(
     <div className={styles.WritePost} data-testid="WritePost">
       <WidgetWrapper>
