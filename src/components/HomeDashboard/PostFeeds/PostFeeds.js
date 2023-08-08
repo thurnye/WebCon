@@ -30,8 +30,8 @@ const PostFeeds = () => {
     <div className={styles.PostFeeds} data-testid="PostFeeds">
       {
         !loading ? 
-        feeds.length > 0 ? feeds.map((_, i) => <React.Fragment key={`feeds_${i}`}>
-          <PostFeedContainer/> 
+        feeds.length > 0 ? feeds.map((post, i) => <React.Fragment key={`feeds_${i}`}>
+          <PostFeedContainer post={post}/> 
         </React.Fragment>)
             : 
           'No Contents' 

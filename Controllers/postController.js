@@ -3,6 +3,21 @@ import Post from '../Models/post.js';
 import Comment from '../Models/comment.js'
 import {postActionTypes} from '../src/util/common/enums.js'
 
+export const refindUser = async (id) => {
+
+  const user = await User.findById(id).populate({
+    path: 'friends',
+    select: '_id firstName lastName picture location',
+    })
+    .exec();
+    // Create a user object without the password field
+    const userWithoutPassword = { ...user.toObject() };
+    delete userWithoutPassword.password;
+
+    return userWithoutPassword;
+}
+
+
 // Post A Post
 export const createPost = async (req, res) => {
     try {
@@ -57,7 +72,7 @@ const populateReplies = async (comment) => {
         const reply = await Comment.findById(replyId)
         .populate({ 
             path: 'user', 
-            select: '_id firstName lastName picturePath' 
+            select: '_id firstName lastName picture' 
         } ).exec()
         return populateReplies(reply);
       })
@@ -83,21 +98,21 @@ export const getFeedPost = async (req, res) => {
   
       // Find all the posts where the author's ObjectId is in the friendsIds array
       const friendsPosts = await Post.find({ author: { $in: friendsIds } })
-        .populate('author', '_id firstName lastName picturePath')
+        .populate('author', '_id firstName lastName picture location')
         .populate({
           path: 'comments',
           select: '_id comment user replies createdAt',
           populate: [
             {
               path: 'user',
-              select: '_id firstName lastName picturePath',
+              select: '_id firstName lastName picture location',
             },
             {
               path: 'replies',
               select: '_id comment user replies createdAt',
               populate: {
                 path: 'user',
-                select: '_id firstName lastName picturePath',
+                select: '_id firstName lastName picture location',
               },
             },
           ],
@@ -133,32 +148,34 @@ export const getFeedPost = async (req, res) => {
 // Get A Post Feed
 export const likeSavePost = async (req, res) => {
     try {
-        console.log(req);
         const id = req.params.id;
         const postId = req.params.postId;
         const actionType = req.params.actionType;
         const user = await User.findById(id);
         const post = await Post.findById(postId);
 
+
         if(actionType === postActionTypes.like){
-            user.likedPosts.push(postId);
-            post.likes += 1
+          if(user.likedPosts.includes(postId)){
+            user.likedPosts = user.likedPosts.filter((like) => like._id.toString() !== postId.toString());
+            post.likes -= 1
+          }else{
+              user.likedPosts.push(postId);
+              post.likes += 1
+          }
         }
         if(actionType === postActionTypes.save){
+          if(user.savedPosts.includes(postId)){
+            user.savedPosts = user.savedPosts.filter((save) => save._id.toString() !== postId.toString());
+            
+          }else{
             user.savedPosts.push(postId);
+          }
         }
         await user.save();
         await post.save();
-
-        //just for postman, delete when UI is ready
-        const savedUserFriend = await User.findById(id)
-        .populate('friends')
-        .populate('posts')
-        .populate('likedPosts')
-        .populate('savedPosts')
-        .exec();
-
-        res.status(200).json(savedUserFriend);
+        
+        res.status(200).json({likes: post.likes, actionType, user: await refindUser(id)});
         
     } catch (error) {
         console.log(error);

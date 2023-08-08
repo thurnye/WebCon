@@ -36,7 +36,7 @@ class StuffDataService {
   
   // like or save post
   getLikeSavePost(id, postId, actionType) {
-    return http.get(`/user/${id}/${postId}/${actionType}`);
+    return http.get(`/post/${id}/${postId}/${actionType}`);
   }
 
   // like or save post

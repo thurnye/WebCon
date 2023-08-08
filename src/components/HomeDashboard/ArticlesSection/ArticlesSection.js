@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './ArticlesSection.module.css';
 import { Box } from "@mui/material";
-import Friends from '../../Friends/Friends';
+import Friends from '../../FriendContainer/Friends/Friends';
 
 const ArticlesSection = () => (
   <Box flexBasis="26%" className={styles.ArticlesSection} data-testid="ArticlesSection">

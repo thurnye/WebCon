@@ -6,7 +6,7 @@
   "testLibrary": "Testing Library",
   "component": {
     "default": {
-      "path": "src/components",
+      "path": "src/components/FriendContainer",
       "withStyle": true,
       "withTest": true,
       "withStory": false,

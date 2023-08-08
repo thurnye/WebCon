@@ -180,7 +180,6 @@ const WritePost = () => {
         </Button>
       </FlexBetweenBox>
       </WidgetWrapper>
-      {parser(post)}
     </div>
   )
 };
