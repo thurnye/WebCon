@@ -29,7 +29,6 @@ const App = () => {
               <Route path='/' element={<Home/>} />
               <Route path='profile' element={<Profile/>} />
             </Route>
-            <Route path='/login' element={<Login/>}/>
             {!user && <>
               <Route path='/login' element={<Login/>} />
               <Route path='/signup' element={<Signup/>} />

@@ -47,6 +47,10 @@ class StuffDataService {
     return http.post(`/post/comment`, data);
   }
 
+  postImage(data) {
+    return http.post('/uploadImage', data);
+  }
+
 }
 
 export default new StuffDataService();
