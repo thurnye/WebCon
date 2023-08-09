@@ -60,48 +60,20 @@ export const createPost = async (req, res) => {
 //         res.status(400).json('Bad Credentials');
 //     }
 // };
-// Get A Post Feed
-// This is for the deep nesting of replies
-const populateReplies = async (comment) => {
-    if (comment.replies.length === 0) {
-      return comment;
-    }
-  
-    const populatedReplies = await Promise.all(
-      comment.replies.map(async (replyId) => {
-        const reply = await Comment.findById(replyId)
-        .populate({ 
-            path: 'user', 
-            select: '_id firstName lastName picture' 
-        } ).exec()
-        return populateReplies(reply);
-      })
-    );
-  
-    comment.replies = populatedReplies;
-    return comment;
-}
 
-export const getFeedPost = async (req, res) => {
-    try {
-      const id = req.params.userId;
-      // Find the user by the provided userId
-      const user = await User.findById(id).exec();
-  
-      // Check if the user exists
-      if (!user) {
-        throw new Error('User not found');
-      }
-  
-      // Get an array of the user's friends' ObjectIds
-      const friendsIds = user.friends.map((friend) => friend.toString());
-  
+
+
+// Get A Post Feed
+
+const getFriendsFeeds = async (userFriends) => {
+  // Get an array of the user's friends' ObjectIds
+  const friendsIds = userFriends.map((friend) => friend.toString());
       // Find all the posts where the author's ObjectId is in the friendsIds array
       const friendsPosts = await Post.find({ author: { $in: friendsIds } })
         .populate('author', '_id firstName lastName picture location')
         .populate({
           path: 'comments',
-          select: '_id comment user replies createdAt',
+          select: '_id comment user replies createdAt likes post',
           populate: [
             {
               path: 'user',
@@ -109,7 +81,7 @@ export const getFeedPost = async (req, res) => {
             },
             {
               path: 'replies',
-              select: '_id comment user replies createdAt',
+              select: '_id comment user replies createdAt likes post',
               populate: {
                 path: 'user',
                 select: '_id firstName lastName picture location',
@@ -137,10 +109,46 @@ export const getFeedPost = async (req, res) => {
   
       populatedPosts.sort((a, b) => b.createdAt - a.createdAt); // Sort posts by most recent
   
-      res.status(200).json(populatedPosts);
+  return populatedPosts;
+}
+
+
+// This is for the deep nesting of replies
+const populateReplies = async (comment) => {
+    if (comment.replies.length === 0) {
+      return comment;
+    }
+  
+    const populatedReplies = await Promise.all(
+      comment.replies.map(async (replyId) => {
+        const reply = await Comment.findById(replyId)
+        .populate({ 
+            path: 'user', 
+            select: '_id firstName lastName picture' 
+        } ).exec()
+        return populateReplies(reply);
+      })
+    );
+  
+    comment.replies = populatedReplies;
+    return comment;
+}
+
+
+
+
+export const getFeedPost = async (req, res) => {
+    try {
+      const id = req.params.userId;
+      // Find the user by the provided userId
+      const user = await User.findById(id).exec();
+  
+      // Check if the user exists
+      if (!user) return res.status(400).json({ msg: 'User does not exist' });     
+      res.status(200).json( await getFriendsFeeds(user.friends));
     } catch (error) {
       console.error('Error fetching user friends posts:', error);
-      res.status(400).json('Bad Credentials');
+      res.status(500).json({msg:'Internal Server Error', error: error});
     }
   };
   
@@ -153,6 +161,9 @@ export const likeSavePost = async (req, res) => {
         const actionType = req.params.actionType;
         const user = await User.findById(id);
         const post = await Post.findById(postId);
+
+        if (!post) return res.status(400).json({ msg: 'Post does not exist' });
+        if (!user) return res.status(400).json({ msg: 'User does not exist' });
 
 
         if(actionType === postActionTypes.like){
@@ -184,6 +195,35 @@ export const likeSavePost = async (req, res) => {
 };
 
 
+export const likeComment = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const commentId = req.params.commentId;
+        const user = await User.findById(id);
+        const comment = await Comment.findById(commentId);
+        if (!comment) return res.status(400).json({ msg: 'Comment does not exist' });
+        if (!user) return res.status(400).json({ msg: 'User does not exist' });
+
+          if(user.likedComments.includes(commentId)){
+            user.likedComments = user.likedComments.filter((like) => like._id.toString() !== commentId.toString());
+            comment.likes -= 1
+          }else{
+              user.likedComments.push(commentId);
+              comment.likes += 1
+          }
+        
+        await user.save();
+        await comment.save();
+        
+        res.status(200).json({likes: comment.likes, user: await refindUser(id)});
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg:'Internal Server Error', error: error});
+    }
+};
+
+
 //Creating A Post Comments
 export const postCreateComment = async (req, res, next) => {
     try {
@@ -199,18 +239,30 @@ export const postCreateComment = async (req, res, next) => {
        if(commentId){
         // this will be a reply
         const  existingComment = await Comment.findById(commentId);
+
+        if (!existingComment) return res.status(400).json({ msg: 'Comment does not exist' });
+
         existingComment.replies.push(comment._id);
         existingComment.save();
        }else{
         // this will be a new comment
            const post = await Post.findById(postId);
+
+           if (!post) return res.status(400).json({ msg: 'Post does not exist' });
+           
            post.comments.push(comment._id);
            await post.save();
        };
 
-       res.status(200).json(comment);
+       const user = await User.findById(userId).exec();
+  
+       // Check if the user exists
+       if (!user) return res.status(400).json({ msg: 'User does not exist' });
+
+       res.status(200).json(await getFriendsFeeds(user.friends));
+
     } catch (error) {
         console.log(error);
-        res.status(400).json('Bad Credentials');
+        res.status(500).json({msg:'Internal Server Error', error: error});
     }
 }

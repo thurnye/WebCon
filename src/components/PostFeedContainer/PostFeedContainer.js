@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import parser from 'html-react-parser';
 import { Box, Divider, IconButton, Typography, useTheme, ImageList,  ImageListItem } from "@mui/material";
 import FlexBetweenBox from '../FlexBetweenBox/flexBetweenBox';
@@ -11,28 +11,26 @@ import {
   MdOutlineBookmark,
   MdOutlineBookmarkBorder
 } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styles from './PostFeedContainer.module.css';
 import Friend from '../FriendContainer/Friend/Friend';
 import {StatusCode, postActionTypes} from '../../util/common/enums';
 import services from '../../util/services';
-import { getRandomInt, getCommentCounts} from '../../util/common/general'
-import { authActions } from '../../store/authSlice';
+import {  getCommentCounts} from '../../util/common/general'
+
 import CommentContainer from './commentContainer'
+import CommentEditor from '../CommentEditor/CommentEditor';
 
 const PostFeedContainer = ({post}) => {
   const [showReplies, setShowReplies] = useState(false);
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [likes, setLikes] = useState(post.likes);
   const [userLikes, setUserLikes] = useState(user.likedPosts);
   const [userSaves, setUserSaves] = useState(user.savedPosts);
-  const [friends, setFriends] = useState(user.friends)
-  // const [repliesCount, setRepliesCount] = useState();
+  const [showAddComment, setShowAddComment] = useState(false);
+  const [comments, setComments] = useState(post.comments);
 
-  // const comments = true;
-  // console.log(post)
-
+  
 
   const { palette } = useTheme();
   const main = palette.neutral.main;
@@ -47,8 +45,6 @@ const PostFeedContainer = ({post}) => {
       return userSaves.includes(post._id);
     };
   };
-
-  const comments = post.comments
 
   // Like or Save Post
   const likeOrSavePost = async (type) => {
@@ -70,17 +66,8 @@ const PostFeedContainer = ({post}) => {
 const toggleReplies = () => {
   console.log(post._id);
   setShowReplies(!showReplies);
+  setShowAddComment(!showAddComment);
 };
-
-
-
-
-console.log("Total Count:", getCommentCounts(comments));
-
-
-
-
-
 
 
 
@@ -89,26 +76,28 @@ console.log("Total Count:", getCommentCounts(comments));
   return(
     <div className={styles.PostFeedContainer} data-testid="PostFeedContainer">
       <WidgetWrapper m="2rem 0">
-        <Friend friend={post.author}/>
-        <Box color={main} sx={{ mt: "1rem" }}>
+        <Friend friend={post.author} time={post.createdAt}/>
+        <Box color={main} sx={{ mt: "1rem", ml: '4.5rem'}}>
           {parser(post.post)}
+          {post.images.length > 0 && <Box sx={{margin: 'auto'}}>
+            <ImageList cols={post.images.length > 2 ? 3 : post.images.length === 2 ? 2 : 1}>
+            {post.images?.map((item, i) => (
+              <ImageListItem key={`${item?.name}_${i}`}>
+                <img
+                src={item.image}
+                alt={item.name}
+                  loading="lazy"
+                  width='164px'
+                  height='164px'
+                />
+              </ImageListItem>
+            ))}
+            </ImageList>
+          </Box>
+          }
         </Box>
-        {post.images.length > 0 && 
-          <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
-          {post.images?.map((item, i) => (
-            <ImageListItem key={`${item?.name}_${i}`}>
-              <img
-                src={`${item?.image}?w=164&h=164&fit=crop&auto=format`}
-                srcSet={`${item?.image}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                alt={item?.name}
-                loading="lazy"
-              />
-            </ImageListItem>
-          ))}
-        </ImageList>
-        }
 
-  <FlexBetweenBox mt="0.25rem">
+        <FlexBetweenBox mt="0.25rem" ml= '4rem'>
           <FlexBetweenBox gap="1rem">
             <FlexBetweenBox gap="0.3rem">
               <IconButton 
@@ -149,19 +138,23 @@ console.log("Total Count:", getCommentCounts(comments));
           </FlexBetweenBox>
         </FlexBetweenBox>
         {showReplies && comments.length > 0 && (
-        <Box mt="0.5rem">
-          {/* {comments.map((comment, i) => (
-            <Box key={`${getRandomInt()}_${i}`}>
-              <Divider />
-              <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
-              </Typography>
-            </Box>
-          ))} */}
-          <CommentContainer comments={comments} />
+        <Box mt="0.5rem" ml='1rem'>
+          <CommentContainer 
+          comments={comments} 
+          commentReply={showAddComment}
+          setShowAddComment={setShowAddComment}
+          />
           <Divider />
         </Box>
       )}
-
+      {showAddComment && (
+        <Box>
+          <CommentEditor 
+          postId={post._id}
+          setComments={setComments}
+          />
+        </Box>
+      )}
       </WidgetWrapper>
     </div>
   )

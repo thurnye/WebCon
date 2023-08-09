@@ -39,6 +39,11 @@ class StuffDataService {
     return http.get(`/post/${id}/${postId}/${actionType}`);
   }
 
+  // like Comment
+  getLikedComment(id, commentId) {
+    return http.get(`/comment/${id}/${commentId}`);
+  }
+
   // like or save post
   postComment(data) {
     return http.post(`/post/comment`, data);

@@ -18,7 +18,6 @@ import {
   IconButton,
   // useMediaQuery,
 } from "@mui/material";
-import parser from 'html-react-parser';
 import FlexBetweenBox from '../../FlexBetweenBox/flexBetweenBox';
 import Avatar from '../../Avatar/Avatar'
 import WidgetWrapper from '../../WidgetWrapper/WidgetWrapper';

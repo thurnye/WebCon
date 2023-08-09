@@ -8,7 +8,7 @@ import FlexBetweenBox from '../../FlexBetweenBox/flexBetweenBox';
 import Avatar from '../../Avatar/Avatar';
 import services from 'util/services';
 import { StatusCode } from 'util/common/enums';
-
+import {timeDifference} from 'util/common/general';
 
 const Friend = (prop) => {
   const { _id, firstName, lastName, picture, location} = prop.friend;
@@ -56,6 +56,7 @@ const Friend = (prop) => {
             }}
           >
             {`${firstName} ${lastName}`}
+            <span> {prop.time ? `@${ timeDifference(prop.time)}` : ''}</span>
           </Typography>
           <Typography color={medium} fontSize="0.75rem">
             {location}
