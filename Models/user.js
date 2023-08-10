@@ -60,6 +60,12 @@ const UserSchema = new mongoose.Schema(
                 ref: 'Post'
             }
         ],
+        likedComments: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Comment'
+            }
+        ],
         location: String,
         Occupation: String,
         viewedProfile: Number,

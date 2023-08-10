@@ -17,10 +17,12 @@ class StuffDataService {
     return http.get(`/user/${id}`);
   }
   
-  // get user
-  getUserRecipes(id, data) {
-    return http.post(`/user/${id}`, data);
+  // get user friends
+  getFriends(id) {
+    return http.get(`/friends/${id}`);
   }
+  
+
 
   //add a friend
   postAddFriend(userId, friendId) {
@@ -39,12 +41,21 @@ class StuffDataService {
   
   // like or save post
   getLikeSavePost(id, postId, actionType) {
-    return http.get(`/user/${id}/${postId}/${actionType}`);
+    return http.get(`/post/${id}/${postId}/${actionType}`);
+  }
+
+  // like Comment
+  getLikedComment(id, commentId) {
+    return http.get(`/comment/${id}/${commentId}`);
   }
 
   // like or save post
   postComment(data) {
     return http.post(`/post/comment`, data);
+  }
+
+  postImage(data) {
+    return http.post('/uploadImage', data);
   }
 
 }

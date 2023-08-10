@@ -17,6 +17,9 @@ const commentsSchema = new Schema({
         required: true,
         ref: 'Post'
     },
+    likes: {
+        type: Schema.Types.Number
+    },
     replies: [
         {
             type: Schema.Types.ObjectId,
