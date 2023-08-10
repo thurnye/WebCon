@@ -1,5 +1,5 @@
 import User from '../Models/user.js';
-import { refindUser } from './postController.js';
+import { refindUser, getFriendsFeeds } from './postController.js';
 
 // GET A USER
 export const getUser = async (req, res) => {
@@ -26,6 +26,7 @@ export const getUser = async (req, res) => {
     }
 };
 
+
 // ADD A FRIEND
 export const postAddRemoveFriend = async (req, res) => {
     try {
@@ -46,12 +47,40 @@ export const postAddRemoveFriend = async (req, res) => {
         }
         await user.save();
 
-        const updatedUser = await refindUser(id);
+        // const updatedUser = await refindUser(id);
+        const updatedUser = await User.findById(id)
+        .populate({
+            path: 'friends',
+            select: '_id firstName lastName picture',
+          })
+        .exec();
         res.status(200).json({
             msg: existing ? 'Friend Removed Successful!' : 'Friend Added Successfully!',
-            user: updatedUser
+            friends: updatedUser.friends
         });
         
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg:'Internal Server Error', error: error});
+    }
+};
+
+
+//Get Friends
+export const getUserFriends = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const user = await User.findById(id)
+        .populate({
+              path: 'friends',
+              select: '_id firstName lastName picture',
+            })
+        .exec();
+
+        // If user is not found in the database
+      if (!user) return res.status(400).json({ msg: 'User does not exist' });
+        res.status(200).json(user.friends);
+
     } catch (error) {
         console.log(error);
         res.status(500).json({msg:'Internal Server Error', error: error});

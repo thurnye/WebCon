@@ -17,6 +17,11 @@ class StuffDataService {
     return http.get(`/user/${id}`);
   }
   
+  // get user friends
+  getFriends(id) {
+    return http.get(`/friends/${id}`);
+  }
+  
 
 
   //add a friend

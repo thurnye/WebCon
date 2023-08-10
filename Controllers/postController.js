@@ -65,7 +65,7 @@ export const createPost = async (req, res) => {
 
 // Get A Post Feed
 
-const getFriendsFeeds = async (userFriends) => {
+export const getFriendsFeeds = async (userFriends) => {
   // Get an array of the user's friends' ObjectIds
   const friendsIds = userFriends.map((friend) => friend.toString());
       // Find all the posts where the author's ObjectId is in the friendsIds array
@@ -134,9 +134,6 @@ const populateReplies = async (comment) => {
     return comment;
 }
 
-
-
-
 export const getFeedPost = async (req, res) => {
     try {
       const id = req.params.userId;
@@ -150,7 +147,7 @@ export const getFeedPost = async (req, res) => {
       console.error('Error fetching user friends posts:', error);
       res.status(500).json({msg:'Internal Server Error', error: error});
     }
-  };
+};
   
 
 // Get A Post Feed

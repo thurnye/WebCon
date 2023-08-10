@@ -67,7 +67,7 @@ const Comment = ({ comment, commentReply, setShowAddComment}) => {
             <Box sx={{mt: '1rem', ml: '1rem'}}>
                 <Box sx={{display: 'flex'}}>
                     <Avatar image={comment.user.picture} size="35px" onClick={() => console.log(`redirect to user @ ${comment.user._id}`)}/>
-                    <Box sx={{ml: '0.5rem', ml: `2rem`}}>
+                    <Box sx={{ml: `2rem`}}>
                         <Typography
                             color={main}
                             variant="h5"

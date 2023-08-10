@@ -12,19 +12,23 @@ const PostFeeds = () => {
   const feeds = useSelector((state) => state.feeds);
   const [loading, setLoading] = useState(true);
 
-  const getUserFeeds = async () => {
-    const result = await services.getUserFeeds(user._id);
-    if(result.status === StatusCode.success){
-      dispatch(authActions.setFeeds({posts: result.data}))
-    }
-  };
-
   useEffect(() => {
-    if(user){
+    const getUserFeeds = async () => {
+      const result = await services.getUserFeeds(user._id);
+      const friends = await services.getFriends(user._id);
+      if (friends.status === StatusCode.success) {
+        dispatch(authActions.setFriends(friends.data));
+      }
+      if (result.status === StatusCode.success) {
+        dispatch(authActions.setFeeds({ posts: result.data }));
+      }
+    };
+  
+    if (user) {
       getUserFeeds();
       setLoading(false);
     }
-  }, [user])
+  }, [user, dispatch]);
   
   return(
     <div className={styles.PostFeeds} data-testid="PostFeeds">

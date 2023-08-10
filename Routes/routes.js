@@ -12,6 +12,9 @@ router.post("/auth/login", AuthController.getLogIn);
 // Get User
 router.get('/user/:id', verifyToken, UserController.getUser);
 
+// Get User Friends
+router.get('/friends/:id', verifyToken, UserController.getUserFriends);
+
 // Add Or Remove a Friend
 router.patch('/user/:id/:friendId', verifyToken, UserController.postAddRemoveFriend);
 

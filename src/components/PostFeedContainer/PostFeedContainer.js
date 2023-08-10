@@ -16,7 +16,7 @@ import styles from './PostFeedContainer.module.css';
 import Friend from '../FriendContainer/Friend/Friend';
 import {StatusCode, postActionTypes} from '../../util/common/enums';
 import services from '../../util/services';
-import {  getCommentCounts} from '../../util/common/general'
+import {  getCommentCounts, getRandomInt} from '../../util/common/general'
 
 import CommentContainer from './commentContainer'
 import CommentEditor from '../CommentEditor/CommentEditor';
@@ -82,7 +82,7 @@ const toggleReplies = () => {
           {post.images.length > 0 && <Box sx={{margin: 'auto'}}>
             <ImageList cols={post.images.length > 2 ? 3 : post.images.length === 2 ? 2 : 1}>
             {post.images?.map((item, i) => (
-              <ImageListItem key={`${item?.name}_${i}`}>
+              <ImageListItem key={`${getRandomInt()}_${i}`}>
                 <img
                 src={item.image}
                 alt={item.name}
