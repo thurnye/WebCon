@@ -6,13 +6,7 @@ export const getUser = async (req, res) => {
     try {
         const id = req.params.id;
         const user = await User.findById(id)
-        .populate({
-              path: 'friends',
-              select: '_id firstName lastName picturePath',
-            } )
-        .populate('posts')
-        .populate('likedPosts')
-        .populate('savedPosts')
+        .select('_id firstName lastName picture location friends')
         .exec();
 
         // If user is not found in the database
@@ -78,7 +72,9 @@ export const getUserFriends = async (req, res) => {
         .exec();
 
         // If user is not found in the database
-      if (!user) return res.status(400).json({ msg: 'User does not exist' });
+        if (!user) return res.status(400).json({ msg: 'User does not exist' });
+        
+
         res.status(200).json(user.friends);
 
     } catch (error) {

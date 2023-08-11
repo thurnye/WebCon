@@ -39,6 +39,11 @@ class StuffDataService {
     return http.get(`/postFeed/${id}`);
   }
   
+  // users feeds
+  getUserPosts(id) {
+    return http.get(`/post/${id}`);
+  }
+  
   // like or save post
   getLikeSavePost(id, postId, actionType) {
     return http.get(`/post/${id}/${postId}/${actionType}`);
@@ -57,6 +62,8 @@ class StuffDataService {
   postImage(data) {
     return http.post('/uploadImage', data);
   }
+
+  
 
 }
 

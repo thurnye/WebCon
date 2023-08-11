@@ -21,8 +21,8 @@ router.patch('/user/:id/:friendId', verifyToken, UserController.postAddRemoveFri
 // Posts
 router.post('/post', verifyToken, PostController.createPost);
 
-
-// router.get('/post/:userId', verifyToken, PostController.getUserPost);
+//get user posts
+router.get('/post/:userId', verifyToken, PostController.getUserPost);
 
 //get the news feeds
 router.get('/postFeed/:userId', verifyToken, PostController.getFeedPost);

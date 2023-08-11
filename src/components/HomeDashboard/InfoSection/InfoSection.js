@@ -7,23 +7,39 @@ import { Box, Typography, Divider, useTheme } from '@mui/material'
 import Avatar from '../../Avatar/Avatar'
 import FlexBetweenBox from '../../FlexBetweenBox/flexBetweenBox'
 import WidgetWrapper from "../../WidgetWrapper/WidgetWrapper";
-
+import { useLocation } from 'react-router';
 
 
 const InfoSection = () => {
-  const user = useSelector((state) => state.user);
+  const authUser = useSelector((state) => state.user);
+  const friend = useSelector((state) => state.friend);
+  const {state} = useLocation()
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(authUser);
   const { palette } = useTheme();
   const navigate = useNavigate();
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
   const main = palette.neutral.main;
+  const isUser = friend ? false : true;
+  // const isUser = friend ? false : true;
+
 
   useEffect(() => {
-    if(user){
+    setLoading(true);
+    console.log(friend)
+    if(!friend){
+      setLoading(false);
+      setUser(authUser);
+    }
+    if(friend){
+      console.log(friend);
+      setUser(friend);
       setLoading(false);
     };
-  },[user]);
+  },[authUser, isUser, state, user, friend]);
+
+  console.log(isUser);
 
   return(
     <div className={styles.InfoSection} data-testid="InfoSection">
@@ -32,7 +48,7 @@ const InfoSection = () => {
           <FlexBetweenBox
             gap="0.5rem"
             pb="1.1rem"
-            onClick={() => navigate(`/profile`)}
+            // onClick={() => navigate(`/profile`)}
           >
             <FlexBetweenBox gap="1rem">
               <Avatar image={user.picture} />
@@ -53,7 +69,8 @@ const InfoSection = () => {
                 <Typography color={medium}>{user.friends.length} friends</Typography>
               </Box>
             </FlexBetweenBox>
-            <MdOutlineManageAccounts />
+            {isUser && <MdOutlineManageAccounts />}
+            
           </FlexBetweenBox>
 
           <Divider />
@@ -77,13 +94,13 @@ const InfoSection = () => {
             <FlexBetweenBox mb="0.5rem">
               <Typography color={medium}>Who's viewed your profile</Typography>
               <Typography color={main} fontWeight="500">
-                {user.viewedProfile}
+                {user?.viewedProfile}
               </Typography>
             </FlexBetweenBox>
             <FlexBetweenBox>
               <Typography color={medium}>Impressions of your post</Typography>
               <Typography color={main} fontWeight="500">
-                {user.impressions}
+                {user?.impressions}
               </Typography>
             </FlexBetweenBox>
           </Box>
@@ -106,7 +123,7 @@ const InfoSection = () => {
                   <Typography color={medium}>Social Network</Typography>
                 </Box>
               </FlexBetweenBox>
-              <MdOutlineModeEditOutline sx={{ color: main }} />
+              {isUser && <MdOutlineModeEditOutline sx={{ color: main }} />}
             </FlexBetweenBox>
 
             <FlexBetweenBox gap="1rem">
@@ -119,7 +136,7 @@ const InfoSection = () => {
                   <Typography color={medium}>Network Platform</Typography>
                 </Box>
               </FlexBetweenBox>
-              <MdOutlineModeEditOutline sx={{ color: main }} />
+              {isUser && <MdOutlineModeEditOutline sx={{ color: main }} />}
             </FlexBetweenBox>
           </Box>
         </> 

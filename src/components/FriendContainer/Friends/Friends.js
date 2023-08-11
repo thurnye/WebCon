@@ -5,16 +5,26 @@ import { useSelector } from "react-redux";
 import Friend from "../Friend/Friend";
 import WidgetWrapper from "../../WidgetWrapper/WidgetWrapper";
 import { getRandomInt } from 'util/common/general';
+import { useLocation } from 'react-router';
+
+
+
 
 const Friends = () => {
+  const {state} = useLocation();
   const { palette } = useTheme();
   const friendsList = useSelector((state) => state.friends);
+  const diffUserFriend = useSelector((state) => state.myFriendFriends);
   const [friends, setFriends] = useState(friendsList);
 
   // Update friends list
   useEffect(()=> {
-    setFriends(friendsList);
-  },[friendsList]);
+    if(state?.friendId){
+      setFriends(diffUserFriend);
+    }else{
+      setFriends(friendsList);
+    }
+  },[friendsList, diffUserFriend, state]);
 
     
   return(
