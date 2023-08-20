@@ -6,7 +6,9 @@ const initialState = {
     user: null,
     token: null,
     feeds: [],
-    friends: []
+    friends: [],
+    friend: null,
+    myFriendFriends: [],
 };
 
 const authSlice = createSlice({
@@ -27,8 +29,14 @@ const authSlice = createSlice({
        setFeeds(state, action){
         state.feeds = action.payload.posts
        },
+       setFriend(state, action){
+        state.friend = action.payload
+       },
        setFriends(state, action){
         state.friends = action.payload
+       },
+       setFriendFriends(state, action){
+        state.myFriendFriends = action.payload
        }
     }
 });

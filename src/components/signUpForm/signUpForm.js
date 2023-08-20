@@ -22,7 +22,7 @@ const registerSchema = yup.object().shape({
   location: yup.string().required("required"),
   occupation: yup.string().required("required"),
   picture: yup.object().shape({
-    image: yup.string().required("required"),
+    avatar: yup.string().required("required"),
     name: yup.string().required("required"),
   }).required("required"),
 });
@@ -166,7 +166,7 @@ const SignUpForm = () => {
                       multiple={false}
                       onDrop={async (acceptedFiles) =>
                         setFieldValue("picture", {
-                          image: await convertToBase64(acceptedFiles[0]),
+                          avatar: await convertToBase64(acceptedFiles[0]),
                           name: acceptedFiles[0].name,
                         })
                       }

@@ -18,7 +18,6 @@ const Home = () => {
         justifyContent="space-between"
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
-          {/* <UserWidget userId={_id} picturePath={picturePath} /> */}
         <InfoSection/>
         </Box>
         <Box
@@ -26,8 +25,6 @@ const Home = () => {
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
           <FeedsSection/>
-          {/* <MyPostWidget picturePath={picturePath} />
-          <PostsWidget userId={_id} /> */}
         </Box>
         {isNonMobileScreens && <ArticlesSection />}
       </Box>

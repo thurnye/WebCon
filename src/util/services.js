@@ -12,6 +12,11 @@ class StuffDataService {
     return http.post(`/auth/login`, data);
   }
 
+  // update user
+  postUpdateUser(data) {
+    return http.post(`/user/update`, data);
+  }
+
   // get user
   getUser(id) {
     return http.get(`/user/${id}`);
@@ -39,6 +44,11 @@ class StuffDataService {
     return http.get(`/postFeed/${id}`);
   }
   
+  // users feeds
+  getUserPosts(id) {
+    return http.get(`/post/${id}`);
+  }
+  
   // like or save post
   getLikeSavePost(id, postId, actionType) {
     return http.get(`/post/${id}/${postId}/${actionType}`);
@@ -57,6 +67,8 @@ class StuffDataService {
   postImage(data) {
     return http.post('/uploadImage', data);
   }
+
+  
 
 }
 

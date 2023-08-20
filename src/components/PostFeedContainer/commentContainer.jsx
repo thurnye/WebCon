@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import parser from 'html-react-parser';
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
-import {getCommentCounts, timeDifference} from '../../util/common/general';
+import {getCommentCounts, getRandomInt, timeDifference} from '../../util/common/general';
 import FlexBetweenBox from '../FlexBetweenBox/flexBetweenBox';
 import {
     MdOutlineChatBubbleOutline,
@@ -17,11 +18,12 @@ import Avatar from 'components/Avatar/Avatar';
 
 // Recursive component to render comments and replies
 const Comment = ({ comment, commentReply, setShowAddComment}) => {
-    const user = useSelector((state) => state.user);
-    const [showReplies, setShowReplies] = useState(false);
-    const [showAddReplies, setShowAddReplies] = useState(false);
-    const [likes, setLikes] = useState(comment.likes);
-    const [userLikedComments, setUserLikedComments] = useState(user.likedComments);
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  const [showReplies, setShowReplies] = useState(false);
+  const [showAddReplies, setShowAddReplies] = useState(false);
+  const [likes, setLikes] = useState(comment.likes);
+  const [userLikedComments, setUserLikedComments] = useState(user.likedComments);
 
 
   const { palette } = useTheme();
@@ -65,50 +67,59 @@ const Comment = ({ comment, commentReply, setShowAddComment}) => {
         <Box>
             <Divider/>
             <Box sx={{mt: '1rem', ml: '1rem'}}>
-                <Box sx={{display: 'flex'}}>
-                    <Avatar image={comment.user.picture} size="35px" onClick={() => console.log(`redirect to user @ ${comment.user._id}`)}/>
-                    <Box sx={{ml: `2rem`}}>
-                        <Typography
-                            color={main}
-                            variant="h5"
-                            fontWeight="500"
-                            sx={{
-                            "&:hover": {
-                                color: palette.primary.light,
-                                cursor: "pointer",
-                            },
-                            }}
-                        >
-                            {`${comment.user.firstName} ${comment.user.lastName}`}
-                            <span> @ {timeDifference(comment.createdAt)}</span>
-                        </Typography>
-                        <Typography color={medium} fontSize="0.75rem">
-                            {comment.user.location}
-                        </Typography>
-                    </Box>
-                </Box>
-            <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem", ml: '3rem' }} onClick={toggleReplies}>
-                {parser(comment.comment)}
-            </Typography>
+              <Box sx={{display: 'flex'}} onClick={() => {
+                    navigate(`/profile`, {state: {friendId: comment.user._id}});
+                  }}>
+                  <Avatar 
+                  image={comment.user.picture} 
+                  size="35px" 
+                  />
+                  <Box sx={{ml: `2rem`}}>
+                      <Typography
+                          color={main}
+                          variant="h5"
+                          fontWeight="500"
+                          sx={{
+                          "&:hover": {
+                              color: palette.primary.light,
+                              cursor: "pointer",
+                          },
+                          }}
+                      >
+                          {`${comment.user.firstName} ${comment.user.lastName}`}
+                          <span> @ {timeDifference(comment.createdAt)}</span>
+                      </Typography>
+                      <Typography color={medium} fontSize="0.75rem">
+                          {comment.user.location}
+                      </Typography>
+                  </Box>
+              </Box>
+              <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem", ml: '3rem' }} onClick={toggleReplies}>
+                  {parser(comment.comment)}
+              </Typography>
             </Box>
             <Box sx={{display: 'flex', ml: '4.5rem'}}>
             <FlexBetweenBox gap="0.3rem">
-              <IconButton
-              >
                 {checkLikes() ? (
-                  <MdOutlineFavorite sx={{ color: primary }} onClick={() => likeComment()}/>
+                  <IconButton
+                  onClick={() => likeComment()}
+                  >
+                  <MdOutlineFavorite sx={{ color: primary }} />
+                  </IconButton>
                 ) : (
-                  <MdOutlineFavoriteBorder onClick={() => likeComment()}/>
-                )}
-              </IconButton>
+                <IconButton onClick={() => likeComment()}>
+                  <MdOutlineFavoriteBorder />
+                </IconButton>
+                  )}
+
               <Typography>{likes > 0 && likes}</Typography>
             </FlexBetweenBox>
 
             <FlexBetweenBox gap="0.3rem" sx={{ml: '1rem'}}>
               <IconButton
-              
+              onClick={toggleReplies}
               >
-                <MdOutlineChatBubbleOutline onClick={toggleReplies}/>
+                <MdOutlineChatBubbleOutline />
               </IconButton>
               <Typography>{getCommentCounts(comment.replies)}</Typography>
             </FlexBetweenBox>
@@ -125,7 +136,7 @@ const Comment = ({ comment, commentReply, setShowAddComment}) => {
       {showReplies && comment.replies && (
         <Box style={{ marginLeft: '5px' }}>
           {comment.replies.map((reply) => (
-            <Comment key={reply.id} comment={reply} />
+            <Comment key={reply._id} comment={reply} />
           ))}
         </Box>
       )}
@@ -148,7 +159,7 @@ const CommentContainer = ({ comments, commentReply, setShowAddComment }) => {
       <div>
         {comments.map((comment) => (
           <Comment 
-          key={comment.id} 
+          key={getRandomInt()} 
           comment={comment} 
           commentReply={commentReply}
           setShowAddComment={setShowAddComment}

@@ -6,6 +6,7 @@ import {authActions} from '../../store/authSlice'
 import{ Box, IconButton, InputBase, Typography, Select, MenuItem, FormControl, useTheme, useMediaQuery} from "@mui/material";
 import { MdSearch, MdMessage, MdDarkMode, MdLightMode, MdNotifications, MdHelp, MdMenu, MdClose } from "react-icons/md";
 import FlexBetweenBox from '../FlexBetweenBox/flexBetweenBox';
+import SearchContainer from 'components/Search/SearchContainer/SearchContainer';
 
 
 
@@ -57,7 +58,8 @@ const NavBar = () => {
               gap='3rem'
               padding='0.1rem 1.5rem'
               >
-              <InputBase placeholder="Search..."/>
+              {/* <InputBase placeholder="Search..."/> */}
+              <SearchContainer/>
               <IconButton>
                 <MdSearch/>
               </IconButton>

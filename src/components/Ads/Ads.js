@@ -39,7 +39,7 @@ const Ads = () => {
           </Typography>
       </FlexBetweenBox>
       <Typography color={medium} m="0.5rem 0">
-        Your pathway to stunning and immaculate Ui/Ux design experience and be sure to use our promo code DANWEBCON  for an affordable price.
+        Your pathway to stunning and immaculate Ui/Ux design experience and be sure to use our promo code DANWEBCON  for 45% OFF.
       </Typography>
     </WidgetWrapper>
     </div>

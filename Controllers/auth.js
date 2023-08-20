@@ -32,7 +32,7 @@ export const getLogIn = async (req, res) => {
     try {
         const user = await User.findOne({ email: req.body.email }).populate({
         path: 'friends',
-        select: '_id firstName lastName picture location',
+        select: '_id firstName lastName picture location mediaPlatforms',
         })
         .exec();
     

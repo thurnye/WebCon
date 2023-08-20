@@ -3,7 +3,7 @@ import styles from './Friend.module.css';
 import { MdOutlinePersonAddAlt, MdPersonRemove } from "react-icons/md";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import FlexBetweenBox from '../../FlexBetweenBox/flexBetweenBox';
 import Avatar from '../../Avatar/Avatar';
 import services from 'util/services';
@@ -14,9 +14,11 @@ import {timeDifference} from 'util/common/general';
 const Friend = (prop) => {
   const { _id, firstName, lastName, picture, location} = prop.friend;
   const navigate = useNavigate();
+  const {state} = useLocation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const friendsList = useSelector((state) => state.friends);
+  const diffUserFriend = useSelector((state) => state.myFriendFriends);
   const [friends, setFriends] = useState(friendsList)
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -28,8 +30,12 @@ const Friend = (prop) => {
 
   //Update friends list
   useEffect(()=> {
-    setFriends(friendsList);
-  },[friendsList]);
+    if(state?.friendId){
+      setFriends(diffUserFriend);
+    }else{
+      setFriends(friendsList);
+    }
+  },[friendsList, diffUserFriend, state]);
 
   const checkFriend = () => {
     return friends.find((friend) => friend._id === _id);
@@ -42,7 +48,7 @@ const Friend = (prop) => {
       dispatch(authActions.setFriends(result.data.friends));
     }
   };
-
+  // console.log(_id)
   return (
     <div className={styles.Friend} data-testid="Friend">
       {prop.friend && 
@@ -51,8 +57,8 @@ const Friend = (prop) => {
           <Avatar image={picture} size="55px" />
           <Box
             onClick={() => {
-              navigate(`/profile/${_id}`);
-              navigate(0);
+              
+              navigate(`/profile`, {state: {friendId: prop.friend._id}});
             }}
           >
             <Typography
@@ -74,16 +80,18 @@ const Friend = (prop) => {
             </Typography>
           </Box>
         </FlexBetweenBox>
-        <IconButton
-          onClick={() => AddRemoveFriend()}
-          sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
-        >
-          {checkFriend() ? (
-            <MdPersonRemove sx={{ color: primaryDark }}/>
-          ) : (
-            <MdOutlinePersonAddAlt sx={{ color: primaryDark }}/>
-          )}
-        </IconButton>
+        {prop.isList && 
+          <IconButton
+            onClick={() => AddRemoveFriend()}
+            sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
+          >
+            {checkFriend() ? (
+              <MdPersonRemove sx={{ color: primaryDark }}/>
+            ) : (
+              <MdOutlinePersonAddAlt sx={{ color: primaryDark }}/>
+            )}
+          </IconButton>
+        }
         </FlexBetweenBox>
       }
     </div>

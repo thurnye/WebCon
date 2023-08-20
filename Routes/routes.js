@@ -18,11 +18,14 @@ router.get('/friends/:id', verifyToken, UserController.getUserFriends);
 // Add Or Remove a Friend
 router.patch('/user/:id/:friendId', verifyToken, UserController.postAddRemoveFriend);
 
+// Update User
+router.post('/user/update', verifyToken, UserController.updateUser);
+
 // Posts
 router.post('/post', verifyToken, PostController.createPost);
 
-
-// router.get('/post/:userId', verifyToken, PostController.getUserPost);
+//get user posts
+router.get('/post/:userId', verifyToken, PostController.getUserPost);
 
 //get the news feeds
 router.get('/postFeed/:userId', verifyToken, PostController.getFeedPost);

@@ -1,25 +1,20 @@
 import User from '../Models/user.js';
-import { refindUser, getFriendsFeeds } from './postController.js';
+import jwt from 'jsonwebtoken';
+
+// import { refindUser, getFriendsFeeds } from './postController.js';
 
 // GET A USER
 export const getUser = async (req, res) => {
     try {
         const id = req.params.id;
         const user = await User.findById(id)
-        .populate({
-              path: 'friends',
-              select: '_id firstName lastName picturePath',
-            } )
-        .populate('posts')
-        .populate('likedPosts')
-        .populate('savedPosts')
+        .select('_id firstName lastName picture location friends mediaPlatforms')
         .exec();
 
         // If user is not found in the database
       if (!user) return res.status(400).json({ msg: 'User does not exist' });
 
         res.status(200).json(user);
-
     } catch (error) {
         console.log(error);
         res.status(500).json({msg:'Internal Server Error', error: error});
@@ -73,12 +68,14 @@ export const getUserFriends = async (req, res) => {
         const user = await User.findById(id)
         .populate({
               path: 'friends',
-              select: '_id firstName lastName picture',
+              select: '_id firstName lastName picture mediaPlatforms',
             })
         .exec();
 
         // If user is not found in the database
-      if (!user) return res.status(400).json({ msg: 'User does not exist' });
+        if (!user) return res.status(400).json({ msg: 'User does not exist' });
+        
+
         res.status(200).json(user.friends);
 
     } catch (error) {
@@ -87,6 +84,53 @@ export const getUserFriends = async (req, res) => {
     }
 };
 
+
+export const searchUser = async (req, res) => {
+    
+}
+
+// POSTING Updated User
+export const updateUser = async (req, res) => {
+    try {
+        const { id, firstName, lastName, picture, location, occupation, mediaPlatforms } = req.body;
+
+        const user = await User.findById(id);
+
+        // If user is not found in the database
+        if (!user) {
+            return res.status(400).json({ msg: 'User does not exist' });
+        }
+
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.picture = picture;
+        user.location = location;
+        user.occupation = occupation;
+        user.mediaPlatforms = mediaPlatforms;
+
+        const updatedUser = await user.save();
+
+        const payload = {
+            _id: updatedUser._id,
+            firstName: updatedUser.firstName,
+            lastName: updatedUser.lastName,
+            email: updatedUser.email,
+            mediaPlatforms: updatedUser.mediaPlatforms
+        };
+
+        const token = jwt.sign({ payload }, process.env.SECRET, { expiresIn: '24h' });
+
+        // Create a user object without the password field
+        const userWithoutPassword = { ...updatedUser.toObject() };
+        delete userWithoutPassword.password;
+
+        res.status(200).json({ token, user: userWithoutPassword });
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Internal Server Error', error: error });
+    }
+}
 
 
 

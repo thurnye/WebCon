@@ -7,7 +7,7 @@ export const refindUser = async (id) => {
 
   const user = await User.findById(id).populate({
     path: 'friends',
-    select: '_id firstName lastName picture location',
+    select: '_id firstName lastName picture location mediaPlatforms',
     })
     .exec();
     // Create a user object without the password field
@@ -70,7 +70,7 @@ export const getFriendsFeeds = async (userFriends) => {
   const friendsIds = userFriends.map((friend) => friend.toString());
       // Find all the posts where the author's ObjectId is in the friendsIds array
       const friendsPosts = await Post.find({ author: { $in: friendsIds } })
-        .populate('author', '_id firstName lastName picture location')
+        .populate('author', '_id firstName lastName picture location ')
         .populate({
           path: 'comments',
           select: '_id comment user replies createdAt likes post',
@@ -111,6 +111,8 @@ export const getFriendsFeeds = async (userFriends) => {
   
   return populatedPosts;
 }
+
+
 
 
 // This is for the deep nesting of replies
@@ -262,4 +264,56 @@ export const postCreateComment = async (req, res, next) => {
         console.log(error);
         res.status(500).json({msg:'Internal Server Error', error: error});
     }
+}
+
+
+export const getUserPost = async (req, res) => {
+  try {
+    // Check if the user exists
+    const id = req.params.userId;
+     // Find all the posts where the author's ObjectId is in the friendsIds array
+        const userPosts = await Post.find({ author: { $in: id } })
+          .populate('author', '_id firstName lastName picture location')
+          .populate({
+            path: 'comments',
+            select: '_id comment user replies createdAt likes post',
+            populate: [
+              {
+                path: 'user',
+                select: '_id firstName lastName picture location',
+              },
+              {
+                path: 'replies',
+                select: '_id comment user replies createdAt likes post',
+                populate: {
+                  path: 'user',
+                  select: '_id firstName lastName picture location',
+                },
+              },
+            ],
+          })
+          .exec();
+    
+        // Populate nested replies using the recursive function
+        const populatedPosts = await Promise.all(
+          userPosts.map(async (post) => {
+            const comments = await Promise.all(
+              post.comments.map(async (comment) => {
+                const populatedComment = await populateReplies(comment);
+                populatedComment.replies.sort((a, b) => b.createdAt - a.createdAt); // Sort replies by most recent
+                return populatedComment;
+              })
+            );
+            // Sort comments by most recent
+            post.comments = comments.sort((a, b) => b.createdAt - a.createdAt); 
+            return post;
+          })
+        );
+    
+        populatedPosts.sort((a, b) => b.createdAt - a.createdAt); // Sort posts by most recent
+    res.status(200).json( populatedPosts);
+  } catch (error) {
+    console.log(error);
+        res.status(500).json({msg:'Internal Server Error', error: error});
+  }
 }
