@@ -12,6 +12,11 @@ class StuffDataService {
     return http.post(`/auth/login`, data);
   }
 
+  // update user
+  postUpdateUser(data) {
+    return http.post(`/user/update`, data);
+  }
+
   // get user
   getUser(id) {
     return http.get(`/user/${id}`);

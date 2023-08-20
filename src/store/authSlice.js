@@ -8,7 +8,7 @@ const initialState = {
     feeds: [],
     friends: [],
     friend: null,
-    myFriendFriends: []
+    myFriendFriends: [],
 };
 
 const authSlice = createSlice({

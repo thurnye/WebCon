@@ -40,7 +40,7 @@ const Friends = () => {
       </Typography>
       <Box display="flex" flexDirection="column" gap="1.5rem">
         {friends.map((friend) => (
-          <Friend friend={friend} key={`friend_${getRandomInt()}`}/>
+          <Friend friend={friend} key={`friend_${getRandomInt()}`} isList={true}/>
         ))}
       </Box>
     </WidgetWrapper>

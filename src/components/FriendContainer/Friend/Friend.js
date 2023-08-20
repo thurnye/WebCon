@@ -38,7 +38,7 @@ const Friend = (prop) => {
   },[friendsList, diffUserFriend, state]);
 
   const checkFriend = () => {
-    return friends.find((friend) => friend._id !== _id);
+    return friends.find((friend) => friend._id === _id);
   };
 
   const AddRemoveFriend = async () => {
@@ -80,16 +80,18 @@ const Friend = (prop) => {
             </Typography>
           </Box>
         </FlexBetweenBox>
-        <IconButton
-          onClick={() => AddRemoveFriend()}
-          sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
-        >
-          {checkFriend() ? (
-            <MdPersonRemove sx={{ color: primaryDark }}/>
-          ) : (
-            <MdOutlinePersonAddAlt sx={{ color: primaryDark }}/>
-          )}
-        </IconButton>
+        {prop.isList && 
+          <IconButton
+            onClick={() => AddRemoveFriend()}
+            sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
+          >
+            {checkFriend() ? (
+              <MdPersonRemove sx={{ color: primaryDark }}/>
+            ) : (
+              <MdOutlinePersonAddAlt sx={{ color: primaryDark }}/>
+            )}
+          </IconButton>
+        }
         </FlexBetweenBox>
       }
     </div>

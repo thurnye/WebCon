@@ -1,0 +1,204 @@
+[{
+  "_id": {
+    "$oid": "64cb2007213eb44d81b6bbea"
+  },
+  "comment": "congrats on your first post",
+  "user": {
+    "$oid": "64ca0728c53c2047d3bea216"
+  },
+  "post": {
+    "$oid": "64ca0796c53c2047d3bea220"
+  },
+  "replies": [
+    {
+      "$oid": "64cb23814a5d8606cc7bbfad"
+    },
+    {
+      "$oid": "64d2c7381bc812cd509252bb"
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-08-03T03:33:27.916Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-08T22:52:40.470Z"
+  },
+  "__v": 2,
+  "likes": 0
+},
+{
+  "_id": {
+    "$oid": "64cb23814a5d8606cc7bbfad"
+  },
+  "comment": "thanks",
+  "user": {
+    "$oid": "64ca0741c53c2047d3bea218"
+  },
+  "post": {
+    "$oid": "64ca0796c53c2047d3bea220"
+  },
+  "replies": [
+    {
+      "$oid": "64cc882fbb41ec911a0a1742"
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-08-03T03:48:17.054Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-08T22:49:01.303Z"
+  },
+  "__v": 1,
+  "likes": 1
+},
+{
+  "_id": {
+    "$oid": "64cc882fbb41ec911a0a1742"
+  },
+  "comment": "you are welcome",
+  "user": {
+    "$oid": "64ca0728c53c2047d3bea216"
+  },
+  "post": {
+    "$oid": "64ca0796c53c2047d3bea220"
+  },
+  "replies": [
+    {
+      "$oid": "64cda565454a8c066a641980"
+    },
+    {
+      "$oid": "64cda5b7454a8c066a64198d"
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-08-04T05:10:07.620Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-05T01:28:23.605Z"
+  },
+  "__v": 2,
+  "likes": 0
+},
+{
+  "_id": {
+    "$oid": "64cda565454a8c066a641980"
+  },
+  "comment": "my bad, ur ok?",
+  "user": {
+    "$oid": "64ca0728c53c2047d3bea216"
+  },
+  "post": {
+    "$oid": "64ca0796c53c2047d3bea220"
+  },
+  "replies": [],
+  "createdAt": {
+    "$date": "2023-08-05T01:27:01.521Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-05T01:27:01.521Z"
+  },
+  "__v": 0,
+  "likes": 0
+},
+{
+  "_id": {
+    "$oid": "64cda5b7454a8c066a64198d"
+  },
+  "comment": "you are doing fine then",
+  "user": {
+    "$oid": "64ca0728c53c2047d3bea216"
+  },
+  "post": {
+    "$oid": "64ca0796c53c2047d3bea220"
+  },
+  "replies": [],
+  "createdAt": {
+    "$date": "2023-08-05T01:28:23.510Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-05T01:28:23.510Z"
+  },
+  "__v": 0,
+  "likes": 0
+},
+{
+  "_id": {
+    "$oid": "64cda651f8071fa7d9dd05a1"
+  },
+  "comment": "this is wonderful",
+  "user": {
+    "$oid": "64ca0728c53c2047d3bea216"
+  },
+  "post": {
+    "$oid": "64ca0796c53c2047d3bea220"
+  },
+  "replies": [],
+  "createdAt": {
+    "$date": "2023-08-05T01:30:57.416Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-08T20:12:44.401Z"
+  },
+  "__v": 0,
+  "likes": 1
+},
+{
+  "_id": {
+    "$oid": "64d2c7381bc812cd509252bb"
+  },
+  "comment": "<p>thank, you, u are so kind</p>",
+  "user": {
+    "$oid": "64ca0728c53c2047d3bea216"
+  },
+  "post": {
+    "$oid": "64ca0796c53c2047d3bea220"
+  },
+  "replies": [],
+  "createdAt": {
+    "$date": "2023-08-08T22:52:40.336Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-08T22:52:40.336Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64d2c927fb76fa4ec74c67b5"
+  },
+  "comment": "<p>im the only one commenting now</p>",
+  "user": {
+    "$oid": "64ca0728c53c2047d3bea216"
+  },
+  "post": {
+    "$oid": "64ca0796c53c2047d3bea220"
+  },
+  "replies": [],
+  "createdAt": {
+    "$date": "2023-08-08T23:00:55.900Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-08T23:00:55.900Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64d2d4eef24e2226bc2869cc"
+  },
+  "comment": "<p>thank you for the music</p>",
+  "user": {
+    "$oid": "64ca0728c53c2047d3bea216"
+  },
+  "post": {
+    "$oid": "64d19777de0fd8b1aa65209a"
+  },
+  "replies": [],
+  "createdAt": {
+    "$date": "2023-08-08T23:51:10.850Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-08T23:51:10.850Z"
+  },
+  "__v": 0
+}]

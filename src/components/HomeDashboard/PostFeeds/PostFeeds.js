@@ -16,11 +16,7 @@ const PostFeeds = () => {
   const feeds = useSelector((state) => state.feeds);
   const [loading, setLoading] = useState(true);
 
-  console.log(state);
-
-  useEffect(() => {
-    
-    
+  useEffect(() => {    
     const getUserFeeds = async () => {
       const id = state?.friendId ? state?.friendId : user._id;
 
@@ -29,11 +25,9 @@ const PostFeeds = () => {
 
       // Friends Page
       if(state?.friendId && state?.friendId !== user._id){
-        console.log('calling post for users friend')
         result = await services.getUserPosts(state?.friendId);
         const friendInfo = await services.getUser(state?.friendId);
         if (friends.status === StatusCode.success) {
-          console.log('setting friend for users friend')
           dispatch(authActions.setFriendFriends(friends.data));
           dispatch(authActions.setFriend(friendInfo.data));
         }
@@ -41,7 +35,6 @@ const PostFeeds = () => {
 
       // Home Page
       if(!state?.friendId){
-        console.log('calling post for homePage posts')
         result = await services.getUserFeeds(id); 
         if (friends.status === StatusCode.success) {
           dispatch(authActions.setFriends(friends.data));
@@ -52,7 +45,6 @@ const PostFeeds = () => {
 
       // Logged User
       if(state?.friendId.toString() === user._id){
-        console.log('calling post for logged user');
         result = await services.getUserPosts(user._id);
         if (friends.status === StatusCode.success) {
           dispatch(authActions.setFriendFriends(friends.data));

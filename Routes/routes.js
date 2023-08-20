@@ -18,6 +18,9 @@ router.get('/friends/:id', verifyToken, UserController.getUserFriends);
 // Add Or Remove a Friend
 router.patch('/user/:id/:friendId', verifyToken, UserController.postAddRemoveFriend);
 
+// Update User
+router.post('/user/update', verifyToken, UserController.updateUser);
+
 // Posts
 router.post('/post', verifyToken, PostController.createPost);
 

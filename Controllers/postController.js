@@ -7,7 +7,7 @@ export const refindUser = async (id) => {
 
   const user = await User.findById(id).populate({
     path: 'friends',
-    select: '_id firstName lastName picture location',
+    select: '_id firstName lastName picture location mediaPlatforms',
     })
     .exec();
     // Create a user object without the password field
@@ -70,7 +70,7 @@ export const getFriendsFeeds = async (userFriends) => {
   const friendsIds = userFriends.map((friend) => friend.toString());
       // Find all the posts where the author's ObjectId is in the friendsIds array
       const friendsPosts = await Post.find({ author: { $in: friendsIds } })
-        .populate('author', '_id firstName lastName picture location')
+        .populate('author', '_id firstName lastName picture location ')
         .populate({
           path: 'comments',
           select: '_id comment user replies createdAt likes post',

@@ -15,10 +15,14 @@ if (process.env.NODE_ENV === "production") {
 
 } else {
 
-  config = mongoose.connect(process.env.DATABASE_URL, {
+  mongoose.connect('mongodb://localhost/webCon',{
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
+  // config = mongoose.connect(process.env.DATABASE_URL, {
+  //   useNewUrlParser: true,
+  //   useUnifiedTopology: true,
+  // });
   
 }
 

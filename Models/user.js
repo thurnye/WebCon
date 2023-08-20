@@ -66,8 +66,19 @@ const UserSchema = new mongoose.Schema(
                 ref: 'Comment'
             }
         ],
+        mediaPlatforms:[
+            {
+              name: {
+                type: String
+              },
+              link:{
+                type: String
+              }
+            }
+            
+          ],
         location: String,
-        Occupation: String,
+        occupation: String,
         viewedProfile: Number,
         impressions: Number,
     },
